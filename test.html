@@ -44,7 +44,13 @@
     L.control.scale().addTo(map);
 
     // read KML file into flurnamenLayer
-    var flurnamenLayer = omnivore.kml("Bruneck.kml")
+    var flurnamenLayer = omnivore.csv("full.csv",
+      {
+        latfield: 'latitude',
+        lonfield: 'longitude',
+        delimiter: ';'
+      }
+    )
       .on("ready", function () {
 
         // fit map to layer boundaries
@@ -65,7 +71,7 @@
         // for each marker, run a function
         flurnamenLayer.eachLayer(function (singleMarker) {
           // build content of a marker popup (in HTML)
-          let popupContent = '<strong>' + singleMarker.feature.properties.name + '</strong><br />' + singleMarker.feature.properties.description;
+          let popupContent = '<strong>' + singleMarker.feature.properties.NAME + '</strong><br />' + singleMarker.feature.properties.NOTE;
 
           // bind popup to marker
           singleMarker.bindPopup(popupContent);
