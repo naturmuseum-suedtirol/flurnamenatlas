@@ -25,14 +25,17 @@
 </head>
 
 <body>
-  <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
   <script src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
 
   <div id="map"></div>
 
   <script>
     // initialize Leaflet
-    var map = L.map('map').setView({ lon: 11.5, lat: 46.5 }, 9);
+    var map = L.map('map', {
+      preferCanvas: true,
+      renderer: L.canvas()
+    }
+    ).setView({ lon: 11.5, lat: 46.5 }, 9);
 
     // add the OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,43 +46,58 @@
     // show the scale bar on the lower left corner
     L.control.scale().addTo(map);
 
-    // read KML file into flurnamenLayer
-    var flurnamenLayer = omnivore.csv("full.csv",
+    // setup markercluster group
+    var clusteredMarkers = L.markerClusterGroup(
       {
-        latfield: 'latitude',
-        lonfield: 'longitude',
-        delimiter: ';'
+        // set markercluster options; full list see https://github.com/Leaflet/Leaflet.markercluster#all-options
+        showCoverageOnHover: false, // = When you mouse over a cluster it shows the bounds of its markers
+        zoomToBoundsOnClick: true   // = When you click a cluster we zoom to its bounds
       }
-    )
-      .on("ready", function () {
+    );
 
-        // fit map to layer boundaries
-        map.fitBounds(flurnamenLayer.getBounds());
+    // load CSV file
+    fetch('full.csv').then(function (response) {
+      return response.text();
+    }).then(function (text) {
 
-        // create group of markers to be clustered (via markercluster plugin)
-        var clusteredMarkers = L.markerClusterGroup(
+      // ugly code to parse the CSV
+      // TODO: use proper parsing library!
+      var lines = text.split("\n");
+      for (var i = 1; i < lines.length; i++) {
+        var parts = lines[i].split(";");
+        let lon = parseFloat(parts[3])
+        let lat = parseFloat(parts[4])
+
+        // TODO: another ugly hack to filter out invalid coordinates and improperly parsed CSV results
+        if (Number.isFinite(lon) && Number.isFinite(lat)) {
+
+          // create marker
+          var marker = L.circleMarker(L.latLng(lon, lat),
           {
-            // set markercluster options; full list see https://github.com/Leaflet/Leaflet.markercluster#all-options
-            showCoverageOnHover: false, // = When you mouse over a cluster it shows the bounds of its markers
-            zoomToBoundsOnClick: true   // = When you click a cluster we zoom to its bounds
-          }
-        );
+            radius: 30,
+            weight: 10,
+            color: '#765edd',
+            fillOpacity: 0.5
 
-        // add group of markers to layer
-        clusteredMarkers.addLayer(flurnamenLayer);
+          });
 
-        // for each marker, run a function
-        flurnamenLayer.eachLayer(function (singleMarker) {
+          // ... and add it to the map
+          marker.addTo(clusteredMarkers);
+
           // build content of a marker popup (in HTML)
-          let popupContent = '<strong>' + singleMarker.feature.properties.NAME + '</strong><br />' + singleMarker.feature.properties.NOTE;
+          let popupContent = '<strong>' + parts[0] + '</strong><br />' + parts[1];
 
           // bind popup to marker
-          singleMarker.bindPopup(popupContent);
-        });
+          marker.bindPopup(popupContent);
 
-        // add everything to the map
-        clusteredMarkers.addTo(map);
-      });
+        } else {
+          // console.log('Invalid coordinates');
+        }
+      }
+    
+      clusteredMarkers.addTo(map);
+      // map.fitBounds(clusteredMarkers.getBounds());
+    });
   </script>
 
 
