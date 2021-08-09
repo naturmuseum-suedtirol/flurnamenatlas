@@ -88,7 +88,8 @@
           let popupContent = '<strong>' + parts[0] + '</strong><br />' + parts[1];
 
           // bind popup to marker
-          marker.bindPopup(popupContent);
+          // marker.bindPopup(popupContent);
+          marker.bindTooltip(popupContent, {permanent: true}).openTooltip();
 
         } else {
           // console.log('Invalid coordinates');
