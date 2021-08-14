@@ -8,10 +8,9 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   
-  <script src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
-  
+  <script src='https://unpkg.com/prunecluster@2.1.0/dist/PruneCluster.js'></script>
+  <link rel="stylesheet" href="https://unpkg.com/prunecluster@2.1.0/dist/LeafletStyleSheet.css">
+
   <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
 
@@ -53,14 +52,8 @@
     // show the scale bar on the lower left corner
     L.control.scale().addTo(map);
 
-    // setup markercluster group
-    var clusteredMarkers = L.markerClusterGroup(
-      {
-        // set markercluster options; full list see https://github.com/Leaflet/Leaflet.markercluster#all-options
-        showCoverageOnHover: false, // = When you mouse over a cluster it shows the bounds of its markers
-        zoomToBoundsOnClick: true   // = When you click a cluster we zoom to its bounds
-      }
-    );
+    // setup PruneCluster
+    var pruneCluster = new PruneClusterForLeaflet();
 
     // load CSV file
     fetch('namelatlon.csv').then(function (response) {
@@ -79,31 +72,41 @@
         if (Number.isFinite(lon) && Number.isFinite(lat)) {
 
           // create marker
-          var marker = L.circleMarker(L.latLng(lon, lat),
-          {
+          var marker = new PruneCluster.Marker(lon, lat, { name: parts[0] });
+          // ... and add it to the PruneCluster 
+          pruneCluster.RegisterMarker(marker);
+
+        } else {
+          // console.log('Invalid coordinates');
+        }
+      }
+
+      pruneCluster.BuildLeafletMarker = function(marker, position) {
+        var m = new L.CircleMarker(position, {
             radius: 20,
             weight: 10,
             color: '#765edd',
             fillOpacity: 0.5
 
           });
-
-          // ... and add it to the map
-          marker.addTo(clusteredMarkers);
-
-          // build content of a marker popup (in HTML)
-          let popupContent = '<strong>' + parts[0] + '</strong><br />';
-
-          // bind popup to marker
-          // marker.bindPopup(popupContent);
-          marker.bindTooltip(popupContent, {permanent: true}).openTooltip();
-
-        } else {
-          // console.log('Invalid coordinates');
-        }
+        m.setOpacity = L.Util.falseFn; // a fake setOpacity method#
+        this.PrepareLeafletMarker(m, marker.data, marker.category);
+        return m;
       }
+
+      pruneCluster.PrepareLeafletMarker = function (marker, data) {
+        if(marker.preparedLeafletMarker) return;
+
+        // build content of a marker popup (in HTML)
+        let content = '<strong>' + data.name + '</strong><br />';
+
+        // bind popup to marker
+        // marker.bindPopup(content);
+        marker.bindTooltip(content, {permanent: true}).openTooltip();
+        marker.preparedLeafletMarker = true;
+      };
     
-      clusteredMarkers.addTo(map);
+      map.addLayer(pruneCluster);
       // map.fitBounds(clusteredMarkers.getBounds());
     });
   </script>
