@@ -4,10 +4,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <script src="http://cdn.leafletjs.com/leaflet/v1.7.1/leaflet.js"></script>
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.7.1/leaflet.css" />
+  
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  
+  <script src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+  
+  <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
+
   <style>
     html,
     body {
@@ -25,7 +32,6 @@
 </head>
 
 <body>
-  <script src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
 
   <div id="map"></div>
 
@@ -33,6 +39,7 @@
     // initialize Leaflet
     var map = L.map('map', {
       preferCanvas: true,
+      fullscreenControl: true,
       renderer: L.canvas()
     }
     ).setView({ lon: 11.5, lat: 46.5 }, 9);
@@ -56,7 +63,7 @@
     );
 
     // load CSV file
-    fetch('full.csv').then(function (response) {
+    fetch('namelatlon.csv').then(function (response) {
       return response.text();
     }).then(function (text) {
 
@@ -65,8 +72,8 @@
       var lines = text.split("\n");
       for (var i = 1; i < lines.length; i++) {
         var parts = lines[i].split(";");
-        let lon = parseFloat(parts[3])
-        let lat = parseFloat(parts[4])
+        let lon = parseFloat(parts[1])
+        let lat = parseFloat(parts[2])
 
         // TODO: another ugly hack to filter out invalid coordinates and improperly parsed CSV results
         if (Number.isFinite(lon) && Number.isFinite(lat)) {
@@ -74,7 +81,7 @@
           // create marker
           var marker = L.circleMarker(L.latLng(lon, lat),
           {
-            radius: 30,
+            radius: 20,
             weight: 10,
             color: '#765edd',
             fillOpacity: 0.5
@@ -85,7 +92,7 @@
           marker.addTo(clusteredMarkers);
 
           // build content of a marker popup (in HTML)
-          let popupContent = '<strong>' + parts[0] + '</strong><br />' + parts[1];
+          let popupContent = '<strong>' + parts[0] + '</strong><br />';
 
           // bind popup to marker
           // marker.bindPopup(popupContent);
