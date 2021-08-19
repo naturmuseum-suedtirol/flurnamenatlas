@@ -11,6 +11,9 @@
   <script src='https://unpkg.com/prunecluster@2.1.0/dist/PruneCluster.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/prunecluster@2.1.0/dist/LeafletStyleSheet.css">
 
+  <script src="leaflet-search/leaflet-search.js"></script>
+  <link rel="stylesheet" href="leaflet-search/leaflet-search.css">
+
   <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
 
@@ -109,6 +112,19 @@
     
       map.addLayer(pruneCluster);
       // map.fitBounds(clusteredMarkers.getBounds());
+    }).then(function(){
+      controlSearch = new L.control.search({
+        position:'topleft',    
+        propertyName: 'data.name',
+        propertyLoc: 'position',
+        sourceData: function(test, callback) {
+          callback(pruneCluster.Cluster._markers);
+        },
+        initial: true,
+        zoom: 16,
+        firstTipSubmit: true
+      });
+      map.addControl(controlSearch);
     });
   </script>
 
