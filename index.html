@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
+
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  
+
   <script src='https://unpkg.com/prunecluster@2.1.0/dist/PruneCluster.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/prunecluster@2.1.0/dist/LeafletStyleSheet.css">
 
@@ -38,22 +38,50 @@
   <div id="map"></div>
 
   <script>
+
+    // add the OpenStreetMap tiles
+    var openStreeMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      minZoom: 8,
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    });
+
+    //add southtyrol layers
+    var orthoSouthtyrol =L.tileLayer.wms('http://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+      maxZoom: 19,
+      minZoom: 8,
+      layers: 'P_BZ_OF_2014_2015_2017',
+      attribution: 'Map data &copy; <a href="http://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
+    });
+
+    var mapSouthtyrol =L.tileLayer.wms('http://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+      maxZoom: 19,
+      minZoom: 8,
+      layers: 'P_BZ_BASEMAP_TOPO',
+      attribution: 'Map data &copy; <a href="http://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
+    });
+
+
+    var layers = {
+      'Luftbild 2014/15 2017 -Ortofotocarta 2014/15 2017': orthoSouthtyrol,
+      'Basemap mit Straßen und Ortsbezeichnungen - Basemap con strade e toponimi': mapSouthtyrol,
+      'Open Street Map': openStreeMap
+    };
+
     // initialize Leaflet
     var map = L.map('map', {
       preferCanvas: true,
       fullscreenControl: true,
-      renderer: L.canvas()
+      renderer: L.canvas(),
+      layers: orthoSouthtyrol
     }
     ).setView({ lon: 11.5, lat: 46.5 }, 9);
 
-    // add the OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }).addTo(map);
-
     // show the scale bar on the lower left corner
     L.control.scale().addTo(map);
+
+    // add layers control to top right corner
+    L.control.layers(layers).addTo(map);
 
     // setup PruneCluster
     var pruneCluster = new PruneClusterForLeaflet();
@@ -76,7 +104,7 @@
 
           // create marker
           var marker = new PruneCluster.Marker(lon, lat, { name: parts[0] });
-          // ... and add it to the PruneCluster 
+          // ... and add it to the PruneCluster
           pruneCluster.RegisterMarker(marker);
 
         } else {
@@ -109,12 +137,12 @@
         marker.bindTooltip(content, {permanent: true}).openTooltip();
         marker.preparedLeafletMarker = true;
       };
-    
+
       map.addLayer(pruneCluster);
       // map.fitBounds(clusteredMarkers.getBounds());
     }).then(function(){
       controlSearch = new L.control.search({
-        position:'topleft',    
+        position:'topleft',
         propertyName: 'data.name',
         propertyLoc: 'position',
         sourceData: function(test, callback) {
