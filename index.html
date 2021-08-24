@@ -47,18 +47,18 @@
     });
 
     //add southtyrol layers
-    var orthoSouthtyrol =L.tileLayer.wms('http://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+    var orthoSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
       maxZoom: 19,
       minZoom: 8,
       layers: 'P_BZ_OF_2014_2015_2017',
-      attribution: 'Map data &copy; <a href="http://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
+      attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
     });
 
-    var mapSouthtyrol =L.tileLayer.wms('http://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+    var mapSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
       maxZoom: 19,
       minZoom: 8,
       layers: 'P_BZ_BASEMAP_TOPO',
-      attribution: 'Map data &copy; <a href="http://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
+      attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
     });
 
 
