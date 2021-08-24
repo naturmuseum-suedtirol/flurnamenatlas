@@ -40,7 +40,7 @@
   <script>
 
     // add the OpenStreetMap tiles
-    var openStreeMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       minZoom: 8,
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -65,7 +65,7 @@
     var layers = {
       'Luftbild 2014/15 2017 -Ortofotocarta 2014/15 2017': orthoSouthtyrol,
       'Basemap mit Straßen und Ortsbezeichnungen - Basemap con strade e toponimi': mapSouthtyrol,
-      'Open Street Map': openStreeMap
+      'OpenStreetMap': openStreetMap
     };
 
     // initialize Leaflet
