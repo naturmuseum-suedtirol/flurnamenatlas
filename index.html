@@ -54,6 +54,13 @@
       attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
     });
 
+    var orthoSouthtyrol2020 =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+      maxZoom: 19,
+      minZoom: 8,
+      layers: 'P_BZ_OF_2020',
+      attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
+    });
+
     var mapSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
       maxZoom: 19,
       minZoom: 8,
@@ -63,7 +70,8 @@
 
 
     var layers = {
-      'Luftbild 2014/15 2017 -Ortofotocarta 2014/15 2017': orthoSouthtyrol,
+      'Luftbild 2020 - Ortofotocarta 2020': orthoSouthtyrol2020,
+      'Luftbild 2014/15 2017 - Ortofotocarta 2014/15 2017': orthoSouthtyrol,
       'Basemap mit Straßen und Ortsbezeichnungen - Basemap con strade e toponimi': mapSouthtyrol,
       'OpenStreetMap': openStreetMap
     };
@@ -73,7 +81,7 @@
       preferCanvas: true,
       fullscreenControl: true,
       renderer: L.canvas(),
-      layers: orthoSouthtyrol
+      layers: orthoSouthtyrol2020
     }
     ).setView({ lon: 11.5, lat: 46.5 }, 9);
 
