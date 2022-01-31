@@ -17,6 +17,9 @@
   <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
   <style>
     html,
     body {
@@ -94,6 +97,9 @@
     // setup PruneCluster
     var pruneCluster = new PruneClusterForLeaflet();
 
+    // add "locate" button
+    L.control.locate().addTo(map);
+    
     // load CSV file
     fetch('namelatlon.csv').then(function (response) {
       return response.text();
