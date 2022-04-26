@@ -110,8 +110,8 @@
       var lines = text.split("\n");
       for (var i = 1; i < lines.length; i++) {
         var parts = lines[i].split(";");
-        let lon = parseFloat(parts[1])
-        let lat = parseFloat(parts[2])
+        let lat = parseFloat(parts[1])
+        let lon = parseFloat(parts[2])
 
         // TODO: another ugly hack to filter out invalid coordinates and improperly parsed CSV results
         if (Number.isFinite(lon) && Number.isFinite(lat)) {
