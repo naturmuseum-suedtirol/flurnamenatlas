@@ -99,9 +99,9 @@
 
     // add "locate" button
     L.control.locate().addTo(map);
-    
+
     // load CSV file
-    fetch('namelatlon.csv').then(function (response) {
+    fetch('FN_20220421.csv').then(function (response) {
       return response.text();
     }).then(function (text) {
 
@@ -117,7 +117,7 @@
         if (Number.isFinite(lon) && Number.isFinite(lat)) {
 
           // create marker
-          var marker = new PruneCluster.Marker(lon, lat, { name: parts[0] });
+          var marker = new PruneCluster.Marker(lat, lon, { name: parts[0] });
           // ... and add it to the PruneCluster
           pruneCluster.RegisterMarker(marker);
 
