@@ -4,22 +4,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <script src="leaflet.1.7.1/leaflet.js"></script> 
-  <link rel="stylesheet" href="leaflet.1.7.1/leaflet.css" /> 
-
-  <script src='prune-cluster.2.1.0/PruneCluster.js'></script>
-  <link rel="stylesheet" href="prune-cluster.2.1.0/LeafletStyleSheet.css">
-
-  <script src="leaflet-search/leaflet-search.js"></script> 
-  <link rel="stylesheet" href="leaflet-search/leaflet-search.css"> 
- 
-  <script src="leaflet-fullscreen.1.0.1/Leaflet.fullscreen.min.js"></script> 
-  <link rel="stylesheet" href="leaflet-fullscreen.1.0.1/leaflet.fullscreen.css"/> 
- 
-  <link rel="stylesheet" href="leaflet-locatecontrol.0.76.0/L.Control.Locate.min.css" /> 
-  <script src="leaflet-locatecontrol.0.76.0/L.Control.Locate.min.js" charset="utf-8"></script> 
-
+  
+  <script src="node_modules/leaflet/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+  
+  <script type="module" src="node_modules/@sintef/prune-cluster/dist/PruneCluster.js"></script>
+  <link rel="stylesheet" href="node_modules/@sintef/prune-cluster/dist/LeafletStyleSheet.css">
+  
+  <script type="module" src="node_modules/leaflet-search/dist/leaflet-search.src.js"></script>
+  <link rel="stylesheet" href="node_modules/leaflet-search/dist/leaflet-search.src.css">
+  
+  <script type="module" src="node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js"></script>
+  <link rel="stylesheet" href="node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css" />
+  
+  <script type="module" src="node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+  <link rel="stylesheet" href="node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  
   <style>
     html,
     body {
@@ -39,11 +39,11 @@
 <body>
 
   <div id="map"></div>
+  <script type="module">
+    import { PruneClusterForLeaflet } from "./node_modules/@sintef/prune-cluster/dist/PruneCluster.js";
 
-  <script>
-
-    // add the OpenStreetMap tiles
-    var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// add the OpenStreetMap tiles
+var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       minZoom: 8,
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
