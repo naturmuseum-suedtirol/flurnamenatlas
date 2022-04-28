@@ -8,16 +8,16 @@
   <script src="node_modules/leaflet/dist/leaflet.js"></script>
   <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
   
-  <script type="module" src="node_modules/@sintef/prune-cluster/dist/PruneCluster.js"></script>
+  <!-- <script type="module" src="node_modules/@sintef/prune-cluster/dist/PruneCluster.js"></script> -->
   <link rel="stylesheet" href="node_modules/@sintef/prune-cluster/dist/LeafletStyleSheet.css">
   
   <script type="module" src="node_modules/leaflet-search/dist/leaflet-search.src.js"></script>
   <link rel="stylesheet" href="node_modules/leaflet-search/dist/leaflet-search.src.css">
   
-  <script type="module" src="node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js"></script>
+  <!-- <script type="module" src="node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js"></script> -->
   <link rel="stylesheet" href="node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css" />
   
-  <script type="module" src="node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+  <!-- <script type="module" src="node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script> -->
   <link rel="stylesheet" href="node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
   
   <style>
@@ -40,7 +40,9 @@
 
   <div id="map"></div>
   <script type="module">
-    import { PruneClusterForLeaflet } from "./node_modules/@sintef/prune-cluster/dist/PruneCluster.js";
+    import { PruneCluster, PruneClusterForLeaflet, PruneClusterLeafletSpiderfier } from "@sintef/prune-cluster";
+    import "leaflet-fullscreen";
+    import "leaflet.locatecontrol";
 
 // add the OpenStreetMap tiles
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -101,7 +103,8 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
     L.control.locate().addTo(map);
 
     // load CSV file
-    fetch('FN_20220421.csv').then(function (response) {
+    import dataUrl from 'url:./FN_20220421.csv'
+    fetch(dataUrl).then(function (response) {
       return response.text();
     }).then(function (text) {
 
