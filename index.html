@@ -42,41 +42,33 @@
 
   <script>
 
-    // add the OpenStreetMap tiles
+    // OpenStreetMap
     var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       minZoom: 8,
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     });
 
-    //add southtyrol layers
-    var orthoSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+    //Ortho imagery 2020
+    var orthoSouthtyrol2020 =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/p_bz-Orthoimagery/wms?', {
       maxZoom: 19,
       minZoom: 8,
-      layers: 'P_BZ_OF_2014_2015_2017',
+      layers: 'Aerial-2020-RGB',
       attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
     });
 
-    var orthoSouthtyrol2020 =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
+    // South Tyrol Base map
+    var mapSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/root/wms?', {
       maxZoom: 19,
       minZoom: 8,
-      layers: 'P_BZ_OF_2020',
+      layers: 'p_bz-BaseMap:Basemap-Standard',
       attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
     });
-
-    var mapSouthtyrol =L.tileLayer.wms('https://geoservices.buergernetz.bz.it/mapproxy/ows?', {
-      maxZoom: 19,
-      minZoom: 8,
-      layers: 'P_BZ_BASEMAP_TOPO',
-      attribution: 'Map data &copy; <a href="https://geoportal.buergernetz.bz.it/geodaten.asp">Geoportal Südtirol</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC-0</a>'
-    });
-
 
     var layers = {
       'Luftbild 2020 - Ortofotocarta 2020': orthoSouthtyrol2020,
-      'Luftbild 2014/15 2017 - Ortofotocarta 2014/15 2017': orthoSouthtyrol,
       'Basemap mit Straßen und Ortsbezeichnungen - Basemap con strade e toponimi': mapSouthtyrol,
-      'OpenStreetMap': openStreetMap
+      'OpenStreetMap': openStreetMap,
     };
 
     // initialize Leaflet
