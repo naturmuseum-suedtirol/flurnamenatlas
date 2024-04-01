@@ -1,0 +1,23 @@
+{
+  "name": "flurnamenatlas",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-fullscreen": "^1.0.2",
+    "leaflet-search": "^4.0.0",
+    "leaflet.locatecontrol": "^0.79.0",
+    "papaparse": "^5.4.1",
+    "prunecluster-exportable": "^1.0.0"
+  }
+}
