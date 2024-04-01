@@ -26,6 +26,8 @@
 	<script src="./leaflet.locatecontrol@0.79.0/L.Control.Locate.min.js" charset="utf-8"></script>
 	<link rel="stylesheet" href="./leaflet.locatecontrol@0.79.0/L.Control.Locate.min.css" />
 
+	<script src="./papaparse@5.4.1/papaparse.js" charset="utf-8"></script>
+
 	<style>
 		html,
 		body {
@@ -173,14 +175,13 @@
 			popupAnchor: [0, -36] // Adjust based on where you want the popup to appear
 		});
 
-
 		// load CSV file
 		fetch('./database/FN_20240315.csv').then(function (response) {
 			return response.text();
 		}).then(function (text) {
-			var lines = text.split("\n");
+			var lines = Papa.parse(text).data;
 			for (var i = 1; i < lines.length; i++) {
-				var parts = lines[i].split(";");
+				var parts = lines[i];
 				if (parts.length > 1) {
 					//read names, col1,2,3
 					let nameDE = parts[0]; // German names
