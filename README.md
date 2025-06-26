@@ -1,6 +1,7 @@
 # Flurnamenatlas
 
-Webversion des [Flurnamenatlas Südtirol](https://www.flurnamen.naturmuseum.scientificnet.org/), entstanden nach einem [Twitter-Rant](https://twitter.com/bmgnrs/status/1422975066090971138). Mittlerweile wurde sie unter [flurnamen.natura.museum](https://flurnamen.natura.museum) veröffentlicht.
+Webversion des [Flurnamenatlas Südtirol](https://www.flurnamen.naturmuseum.scientificnet.org/).  Mittlerweile wurde sie unter [flurnamen.natura.museum](https://flurnamen.natura.museum) veröffentlicht.
+Das Buch ist im [Shop des Naturmuseums](https://www.natura.museum/de/forschung/monografien/) erhältlich.
 
 
 # Entwicklung
