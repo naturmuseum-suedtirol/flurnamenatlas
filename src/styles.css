@@ -1,0 +1,143 @@
+@font-face {
+  font-family: 'Monarg';
+  src: url('./assets/monarg.ttf') format('truetype');
+}
+
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.vernacular-name {
+  font-family: 'Monarg', sans-serif;
+}
+
+.prunecluster-small {
+  background-color: #cadf87;
+
+  & div {
+    background-color: #b3dd31;
+  }
+}
+
+.prunecluster-medium {
+  background-color: #a0a165;
+
+  & div {
+    background-color: #9ea004;
+    color: white;
+  }
+}
+
+.prunecluster-large {
+  background-color: #563e34;
+
+  & div {
+    background-color: #532817;
+    color: white;
+  }
+}
+
+.leaflet-info-button {
+  font-size: 18px;
+}
+
+.leaflet-infoWindow-container {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  width: 100%;
+  height: 100%;
+  cursor: auto;
+  font-size: medium;
+}
+
+.leaflet-infoWindow-black {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+}
+
+.leaflet-infoWindow {
+  position: relative;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+  background-color: white;
+  border-radius: 30px;
+
+  & .leaflet-title {
+    height: 25%;
+    max-height: 120px;
+    padding: 0 10%;
+    overflow: hidden;
+    text-align: center;
+
+    & * {
+      margin-top: 35px;
+    }
+  }
+
+  & .leaflet-content {
+    height: 70%;
+    padding: 0 7% 0 5%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-top: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .leaflet-infoWindow {
+    left: 10%;
+    width: 80%;
+  }
+}
+
+@keyframes showInfo {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 10%;
+  }
+}
+
+@keyframes hideInfo {
+  from {
+    top: 10%;
+  }
+  to {
+    top: -100%;
+  }
+}
+
+@keyframes showInfoContainer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hideInfoContainer {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

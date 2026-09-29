@@ -1,8 +1,20 @@
 # Flurnamenatlas
 
-Webversion des [Flurnamenatlas Südtirol](https://www.flurnamen.naturmuseum.scientificnet.org/).  Mittlerweile wurde sie unter [flurnamen.natura.museum](https://flurnamen.natura.museum) veröffentlicht.
-Das Buch ist im [Shop des Naturmuseums](https://www.natura.museum/de/forschung/monografien/) erhältlich.
-
+Webversion des [Flurnamenatlas Südtirol](https://www.flurnamen.naturmuseum.scientificnet.org/), veröffentlicht unter [flurnamen.natura.museum](https://flurnamen.natura.museum).
+Das Buch ist im [Shop des Naturmuseums](https://www.natura.museum/de/forschung/monografien/#:~:text=Flurnamen%20S%C3%BCdtirols) erhältlich.
 
 # Entwicklung
-Der `main`-Branch dieses Repositorys wird unter [naturmuseum-suedtirol.github.io/flurnamenatlas](https://naturmuseum-suedtirol.github.io/flurnamenatlas) veröffentlicht.
+
+```sh
+npm install
+npm run dev      # Dev-Server
+npm test
+npm run format   # Prettier
+npm run build    # nach dist/
+npm run preview  # dist/ lokal ausliefern
+```
+
+# Deployment
+
+- `main` wird per GitHub Actions nach [naturmuseum-suedtirol.github.io/flurnamenatlas](https://naturmuseum-suedtirol.github.io/flurnamenatlas) deployt.
+- Jeder Push auf `main` erzeugt ein GitHub Release mit `flurnamenatlas-<datum>-<commit>.zip`. Für flurnamen.natura.museum das ZIP entpacken und per FTP hochladen.
