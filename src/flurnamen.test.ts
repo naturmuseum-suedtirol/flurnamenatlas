@@ -1,22 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { convertRowToFlurname } from './flurnamen';
+import { encodeFlurnamen } from '../scripts/flurnamenCsv.ts';
+import { decodeFlurnamen } from './flurnamen';
 
-describe('convertRowToFlurname', () => {
-  it('maps columns by header and parses decimal commas', () => {
-    expect(
-      convertRowToFlurname({
+describe('decodeFlurnamen', () => {
+  it('restores names and coordinates', () => {
+    const data = encodeFlurnamen([
+      {
         NAME_DE: 'Samer-Zipfel',
-        NAME_IT: ' ',
+        NAME_IT: '',
         NAME_LLD: 'Zipfl',
         VERNACULAR: 'a',
+        VERNACUL_1: '',
         VERNACUL_2: 'b',
-        xcoord: '11,72',
-        ycoord: '46,89',
-      }),
-    ).toEqual({ name: 'Samer-Zipfel, Zipfl', vernacular: 'a, b', lat: 46.89, lon: 11.72 });
-  });
-
-  it('skips rows without coordinates', () => {
-    expect(convertRowToFlurname({ NAME_DE: 'X', xcoord: '', ycoord: '46,89' })).toBeUndefined();
+        xcoord: '11.72',
+        ycoord: '46.89',
+      },
+    ]);
+    expect(decodeFlurnamen(data)).toEqual([
+      { name: 'Samer-Zipfel, Zipfl', vernacular: 'a, b', lat: 46.89, lon: 11.72 },
+    ]);
   });
 });

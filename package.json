@@ -8,7 +8,11 @@
     "preview": "vite preview",
     "test": "vitest run",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "import-data": "node scripts/importData.ts",
+    "build-data": "node scripts/buildData.ts",
+    "predev": "npm run build-data",
+    "prebuild": "npm run build-data"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
@@ -20,6 +24,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.22",
+    "@types/node": "^26.6.3",
     "@types/papaparse": "^5.5.2",
     "prettier": "^3.9.9",
     "typescript": "^7.0.2",

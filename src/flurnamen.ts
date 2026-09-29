@@ -1,5 +1,5 @@
-import Papa from 'papaparse';
-import csvUrl from '../data/flurnamen.csv?url';
+import dataUrl from '../data/flurnamen.json.gz?url';
+import { COORDINATE_SCALE, type FlurnamenJson } from './flurnamenFormat';
 
 export type Flurname = {
   name: string;
@@ -8,38 +8,27 @@ export type Flurname = {
   lon: number;
 };
 
-type CsvRow = Record<string, string>;
-
-function join(values: (string | undefined)[]) {
-  return values
-    .map((v) => v?.trim() ?? '')
-    .filter((v) => v !== '')
-    .join(', ');
+function join(values: string[]) {
+  return values.filter((value) => value !== '').join(', ');
 }
 
-function parseCoordinates(value: string | undefined) {
-  return parseFloat((value ?? '').replace(',', '.'));
+export function decodeFlurnamen({ text, lon, lat }: FlurnamenJson): Flurname[] {
+  return lon.map((_, i) => ({
+    name: join([text.nameDe[i], text.nameIt[i], text.nameLld[i]]),
+    vernacular: join([text.vernacularDe[i], text.vernacularIt[i], text.vernacularDeAlternative[i]]),
+    lat: lat[i] / COORDINATE_SCALE,
+    lon: lon[i] / COORDINATE_SCALE,
+  }));
 }
 
-export function convertRowToFlurname(row: CsvRow): Flurname | undefined {
-  const longitude = parseCoordinates(row.xcoord);
-  const latitude = parseCoordinates(row.ycoord);
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return undefined;
-
-  return {
-    name: join([row.NAME_DE, row.NAME_IT, row.NAME_LLD]),
-    vernacular: join([row.VERNACULAR, row.VERNACUL_1, row.VERNACUL_2]),
-    lat: latitude,
-    lon: longitude,
-  };
+async function fetchGzipJson<T>(url: string): Promise<T> {
+  const bytes = new Uint8Array(await (await fetch(url)).arrayBuffer());
+  // Server, die .gz mit Content-Encoding ausliefern, liefern bereits entpackte Daten
+  const isGzip = bytes[0] === 0x1f && bytes[1] === 0x8b;
+  if (!isGzip) return JSON.parse(new TextDecoder().decode(bytes));
+  return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
 }
 
-export async function loadFlurnamen(): Promise<Flurname[]> {
-  const text = await (await fetch(csvUrl)).text();
-  const { data } = Papa.parse<CsvRow>(text, {
-    header: true,
-    skipEmptyLines: true,
-  });
-
-  return data.map(convertRowToFlurname).filter((flurname) => flurname !== undefined);
+export async function loadFlurnamen() {
+  return decodeFlurnamen(await fetchGzipJson<FlurnamenJson>(dataUrl));
 }

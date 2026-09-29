@@ -14,6 +14,14 @@ npm run build    # nach dist/
 npm run preview  # dist/ lokal ausliefern
 ```
 
+# Datenupdate
+
+```sh
+npm run import-data -- FN_YYYYMMDD.csv   # Datum aus dem Dateinamen, sonst --date YYYY-MM-DD
+```
+
+Normalisiert den Datenbank-Export (Spaltenreihenfolge, Sortierung, Dezimalpunkt) nach `data/flurnamen.csv` und schreibt Exportdatum und Anzahl nach `data/meta.json`. Beim Build wird daraus `data/flurnamen.json.gz` erzeugt.
+
 # Deployment
 
 - `main` wird per GitHub Actions nach [naturmuseum-suedtirol.github.io/flurnamenatlas](https://naturmuseum-suedtirol.github.io/flurnamenatlas) deployt.

@@ -10,13 +10,23 @@ import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
 import 'prunecluster/dist/LeafletStyleSheet.css';
 import './styles.css';
 
+import meta from '../data/meta.json';
 import { baseLayers, orthophoto2020 } from './baseLayers';
 import { loadFlurnamen } from './flurnamen';
 import { createFlurnamenLayer } from './flurnamenLayer';
 import { InfoButton } from './infoButton';
 
 function templateHtml(id: string) {
-  return document.querySelector<HTMLTemplateElement>(`#${id}`)!.innerHTML;
+  const template = document.querySelector<HTMLTemplateElement>(`#${id}`)!;
+  for (const element of template.content.querySelectorAll<HTMLTimeElement>('[data-export-date]')) {
+    element.dateTime = meta.exportDate;
+    element.textContent = new Date(meta.exportDate).toLocaleDateString(element.lang, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  }
+  return template.innerHTML;
 }
 
 const map = L.map('map', {
