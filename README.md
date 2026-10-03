@@ -20,7 +20,7 @@ npm run preview  # dist/ lokal ausliefern
 npm run import-data -- FN_YYYYMMDD.csv   # Datum aus dem Dateinamen, sonst --date YYYY-MM-DD
 ```
 
-Normalisiert den Datenbank-Export (Spaltenreihenfolge, Sortierung, Dezimalpunkt) nach `data/flurnamen.csv` und schreibt Exportdatum und Anzahl nach `data/meta.json`. Beim Build wird daraus `data/flurnamen.json.gz` erzeugt.
+Normalisiert den Datenbank-Export (Spaltenreihenfolge, Sortierung, Dezimalpunkt, Kategorie-Codes, Dubletten; Koordinaten mit < 1 m Abweichung bleiben unverändert) nach `data/flurnamen.csv` und schreibt Exportdatum und Anzahl nach `data/meta.json`. Beim Build wird daraus `data/flurnamen.json.gz` erzeugt.
 
 # Deployment
 

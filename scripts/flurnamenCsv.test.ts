@@ -51,6 +51,51 @@ describe('normalizeRows', () => {
     expect(result.duplicates).toBe(1);
   });
 
+  it('removes category codes and rounds coordinates to 7 decimals', () => {
+    const { rows, columns } = parseCsv(
+      exportCsv({
+        NAME_DE: 'A',
+        CATEGORY_D: '25 - Wiese, -n',
+        MAIN_CATEG: '3 - Räumliche Einheiten',
+        xcoord: '11,35682257',
+        ycoord: '46,4',
+      }),
+    );
+    const [row] = normalizeRows(rows, columns).rows;
+    expect(row.CATEGORY_D).toBe('Wiese, -n');
+    expect(row.MAIN_CATEG).toBe('Räumliche Einheiten');
+    expect(row.xcoord).toBe('11.3568226');
+    expect(row.ycoord).toBe('46.4');
+  });
+
+  it('keeps previous coordinates when shifted less than 1 m', () => {
+    const previous = [
+      {
+        ...normalizeRows(parseCsv(exportCsv({ NAME_DE: 'A', xcoord: '11.5', ycoord: '46.5' })).rows, [...COLUMNS])
+          .rows[0],
+      },
+    ];
+    const { rows, columns } = parseCsv(
+      exportCsv(
+        { NAME_DE: 'A', xcoord: '11,50000004', ycoord: '46,50000003' },
+        { NAME_DE: 'A', xcoord: '11,51', ycoord: '46,5' },
+      ),
+    );
+    const result = normalizeRows(rows, columns, previous);
+    expect(result.keptCoordinates).toBe(1);
+    expect(result.rows.map((row) => row.xcoord)).toEqual(['11.5', '11.51']);
+  });
+
+  it('reports question marks in names and categories', () => {
+    const { rows, columns } = parseCsv(
+      exportCsv(
+        { NAME_LLD: '?iasa', xcoord: '11', ycoord: '46' },
+        { NAME_DE: 'A', VERNACULAR: 'a?', xcoord: '11', ycoord: '46' },
+      ),
+    );
+    expect(normalizeRows(rows, columns).valuesWithLostCharacters).toEqual(['?iasa']);
+  });
+
   it('fails on missing columns', () => {
     expect(() => normalizeRows([], ['NAME_DE'])).toThrow(/Fehlende Spalten/);
   });
