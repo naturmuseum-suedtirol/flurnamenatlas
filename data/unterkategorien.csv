@@ -1,0 +1,46 @@
+SUB_CATEGORY_ID;MAIN_CATEG;MAIN_CAT_1;SUB_CATEGO;SUB_CATE_1
+1;Hydrografie;Idrografia;Feuchtgebiete, Moose;Zona umida o paludosa
+2;Hydrografie;Idrografia;Fließgewässer von geringer Relevanz;Corsi d’acqua di scarsa importanza
+3;Hydrografie;Idrografia;Fließgewässer von höherer Relevanz;Corsi d’acqua di grande importanza
+4;Hydrografie;Idrografia;Fließgewässer von mittlerer Relevanz;Corsi d’acqua di media importanza
+5;Hydrografie;Idrografia;Gletscher von geringer Relevanz;Ghiacciai di scarsa importanza
+6;Hydrografie;Idrografia;Gletscher von höherer Relevanz;Ghiacciai di grande importanza
+7;Hydrografie;Idrografia;"Quelle; Brunnen; Wasserfall";"Sorgente; fonte; cascata"
+8;Hydrografie;Idrografia;Stehgewässer von geringer Relevanz;Acque ferme di scarsa importanza
+9;Hydrografie;Idrografia;Stehgewässer von höherer Relevanz;Acque ferme di grande importanza
+10;Hydrografie;Idrografia;Stehgewässer von mittlerer Relevanz;Acque ferme di media importanza
+11;Orografie;Orografia;Erhebung von geringerer Relevanz;Rilievo di scarsa importanza
+12;Orografie;Orografia;Erhebung von höherer Relevanz;Rilievo di grande importanza
+13;Orografie;Orografia;Gebirgsgruppe oder -zug /Hochplateaus von geringer Relevanz;Gruppo montuoso o passo/altopiano di scarsa importanza
+14;Orografie;Orografia;Gebirgsgruppe oder -zug /Hochplateaus von höherer Relevanz;Gruppo montuoso o passo/altopiano di grande importanza
+15;Orografie;Orografia;Gebirgsgruppe oder -zug /Hochplateaus von mittlerer Relevanz;Gruppo montuoso o passo/altopiano di media importanza
+16;Orografie;Orografia;Gipfel von geringer Relevanz;Cima di scarsa importanza
+17;Orografie;Orografia;Gipfel von höherer Relevanz;Cima di grande importanza
+18;Orografie;Orografia;Gipfel von mittlerer Relevanz;Cima di media importanza
+19;Räumliche Einheiten;Unità territoriali;Großes Gebiet;Territorio grande
+20;Räumliche Einheiten;Unità territoriali;Kleines Gebiet;Territorio piccolo
+21;Räumliche Einheiten;Unità territoriali;Mittelgroßes Gebiet;Territorio medio grande
+22;Räumliche Einheiten;Unità territoriali;Sehr großes Gebiet;Territorio molto grande
+23;Räumliche Einheiten;Unità territoriali;Sehr kleines Gebiet;Territorio molto piccolo
+24;Siedlungsgebiete;Urbanizzato;Alm- oder Berghütte;Malga, baita o rifugio di montagna
+25;Siedlungsgebiete;Urbanizzato;Einzelhaus;Casa singola
+26;Siedlungsgebiete;Urbanizzato;Hauptort und/oder Gemeinde < 1.000 Einwohner;Capoluogo e/o Comune con meno di 1.000 abitanti
+27;Siedlungsgebiete;Urbanizzato;Hauptort und/oder Gemeinde > 1.000 Einwohner;Capoluogo e/o Comune con più di 1.000 abitanti
+28;Siedlungsgebiete;Urbanizzato;Hauptort und/oder Gemeinde > 30.000 Einwohner;Capoluogo e/o Comune con più di 30.000 abitanti
+29;Siedlungsgebiete;Urbanizzato;Hauptort und/oder Gemeinde > 5.000 Einwohner;Capoluogo e/o Comune con più di 5.000 abitanti
+30;Siedlungsgebiete;Urbanizzato;Historisches Bauwerk;Edificio storico
+31;Siedlungsgebiete;Urbanizzato;Kleineres Bauwerk;Costruzione minore
+32;Siedlungsgebiete;Urbanizzato;Ort < 1.000 Einwohner;Località con meno di 1.000 abitanti
+33;Siedlungsgebiete;Urbanizzato;Ort > 1.000 Einwohner;Località con più di 1.000 abitanti
+34;Siedlungsgebiete;Urbanizzato;Ort > 10.000 Einwohner;Località con più di 10.000 abitanti
+35;Siedlungsgebiete;Urbanizzato;Ort > 5.000 Einwohner;Località con più di 5.000 abitanti
+36;Siedlungsgebiete;Urbanizzato;Weiler, Häusergruppe;Borgo, gruppo di masi
+37;Verkehrswege;Viabilità;Autobahn oder Zuglinie;Autostrada o linea ferroviaria
+38;Verkehrswege;Viabilità;Fahrradweg;Pista ciclabile
+39;Verkehrswege;Viabilità;Forststraße;Strada forestale
+40;Verkehrswege;Viabilità;Gemeindestraße;Strada comunale
+41;Verkehrswege;Viabilità;Güterweg;Viottolo di campagna
+42;Verkehrswege;Viabilità;Landesstraße;Strada provinciale
+43;Verkehrswege;Viabilità;Nebenstraße;Strada secondaria
+44;Verkehrswege;Viabilità;Staatsstraße;Strada statale
+45;Verkehrswege;Viabilità;Wanderweg oder Steig;Passeggiata o sentiero

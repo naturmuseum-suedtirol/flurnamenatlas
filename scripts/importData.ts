@@ -1,10 +1,10 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { basename } from 'node:path';
 import { parseArgs } from 'node:util';
 import { CoordinateColumn, NAME_COLUMNS } from '../src/flurnamenFormat.ts';
-import { formatCsv, normalizeRows, parseCsv, type CsvRow } from './flurnamenCsv.ts';
+import { readFlurnamen, writeFlurnamen } from './dataFiles.ts';
+import { formatFlurnamen, normalizeRows, parseCsv, type CsvRow } from './flurnamenCsv.ts';
 
-const CSV_PATH = new URL('../data/flurnamen.csv', import.meta.url);
 const META_PATH = new URL('../data/meta.json', import.meta.url);
 
 const { positionals, values } = parseArgs({ allowPositionals: true, options: { date: { type: 'string' } } });
@@ -21,9 +21,9 @@ if (!exportDate || !/^\d{4}-\d{2}-\d{2}$/.test(exportDate)) {
   process.exit(1);
 }
 
-const previousCsv = existsSync(CSV_PATH) ? readFileSync(CSV_PATH, 'utf8') : '';
+const previous = readFlurnamen();
 const { rows, columns } = parseCsv(readFileSync(exportPath, 'utf8'));
-const result = normalizeRows(rows, columns, parseCsv(previousCsv).rows);
+const result = normalizeRows(rows, columns, previous.rows);
 
 if (result.valuesWithLostCharacters.length) {
   console.log(`Werte mit "?" (Zeichensatz beim Export verloren?): ${result.valuesWithLostCharacters.length}`);
@@ -32,13 +32,13 @@ if (result.valuesWithLostCharacters.length) {
   process.exit(1);
 }
 
-const csv = formatCsv(result.rows);
-const previousLines = new Set(previousCsv.split('\n'));
-const lines = new Set(csv.split('\n'));
+const formatted = formatFlurnamen(result.rows, previous.lookups);
+const previousLines = new Set(previous.csv.split('\n'));
+const lines = new Set(formatted.flurnamen.split('\n'));
 const added = [...lines].filter((line) => !previousLines.has(line)).length;
 const removed = [...previousLines].filter((line) => !lines.has(line)).length;
 
-writeFileSync(CSV_PATH, csv);
+writeFlurnamen(formatted);
 writeFileSync(META_PATH, JSON.stringify({ exportDate, count: result.rows.length }, null, 2) + '\n');
 
 function printRows(label: string, rows: CsvRow[]) {

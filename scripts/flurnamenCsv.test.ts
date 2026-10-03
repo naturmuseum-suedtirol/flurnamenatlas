@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { COLUMNS } from '../src/flurnamenFormat.ts';
-import { encodeFlurnamen, formatCsv, normalizeRows, parseCsv } from './flurnamenCsv.ts';
+import { encodeFlurnamen, formatFlurnamen, normalizeRows, parseCsv, parseFlurnamen } from './flurnamenCsv.ts';
+
+function formatCsv(rows: Record<string, string>[]) {
+  return formatFlurnamen(rows).flurnamen;
+}
 
 const header = [...COLUMNS].reverse().join(';');
 
@@ -23,7 +27,9 @@ describe('normalizeRows', () => {
     const csv = formatCsv(normalizeRows(first.rows, first.columns).rows);
 
     expect(formatCsv(normalizeRows(second.rows, second.columns).rows)).toBe(csv);
-    expect(csv.split('\n')[0]).toBe(COLUMNS.join(';'));
+    expect(csv.split('\n')[0]).toBe(
+      'NAME_DE;NAME_IT;NAME_LLD;VERNACULAR;VERNACUL_1;VERNACUL_2;CATEGORY_ID;SUB_CATEGORY_ID;xcoord;ycoord',
+    );
     expect(csv.split('\n')[1]).toMatch(/^A;.*;11\.6;46\.6$/);
     expect(csv).toContain(';b;');
   });
@@ -104,6 +110,42 @@ describe('normalizeRows', () => {
     const { rows, columns } = parseCsv(exportCsv({ NAME_DE: 'X', VERNACULAR: '"a;b"', xcoord: '11', ycoord: '46' }));
     const csv = formatCsv(normalizeRows(rows, columns).rows);
     expect(parseCsv(csv).rows[0].VERNACULAR).toBe('a;b');
+  });
+});
+
+describe('formatFlurnamen', () => {
+  const rows = [
+    { NAME_DE: 'A', CATEGORY_D: 'Wiese', SUB_CATEGO: 'Kleines Gebiet' },
+    { NAME_DE: 'B', CATEGORY_D: 'Wald', SUB_CATEGO: 'Kleines Gebiet' },
+    { NAME_DE: 'C', CATEGORY_D: 'Wiese', SUB_CATEGO: 'Großes Gebiet' },
+  ].map((row) => ({ ...Object.fromEntries(COLUMNS.map((column) => [column, ''])), ...row }));
+
+  function ids(csv: string, column: string) {
+    return parseCsv(csv).rows.map((row) => row[column]);
+  }
+
+  it('stores categories and sub categories separately and restores them', () => {
+    const { flurnamen, lookups } = formatFlurnamen(rows);
+    expect(ids(flurnamen, 'CATEGORY_ID')).toEqual(['2', '1', '2']);
+    expect(ids(flurnamen, 'SUB_CATEGORY_ID')).toEqual(['2', '2', '1']);
+    expect(ids(lookups.categories, 'CATEGORY_D')).toEqual(['Wald', 'Wiese']);
+    expect(parseFlurnamen(flurnamen, lookups).rows).toEqual(rows);
+  });
+
+  it('keeps previous ids', () => {
+    const previous = formatFlurnamen(rows);
+    const { flurnamen, lookups } = formatFlurnamen([...rows, { ...rows[0], NAME_DE: 'D', CATEGORY_D: 'Acker' }], {
+      categories: parseCsv(previous.lookups.categories).rows,
+    });
+    expect(ids(flurnamen, 'CATEGORY_ID')).toEqual(['2', '1', '2', '3']);
+    expect(lookups.categories.startsWith(previous.lookups.categories)).toBe(true);
+  });
+
+  it('fails on unknown ids', () => {
+    const { flurnamen, lookups } = formatFlurnamen(rows);
+    expect(() => parseFlurnamen(flurnamen, { ...lookups, subCategories: 'SUB_CATEGORY_ID\n' })).toThrow(
+      /Unbekannte SUB_CATEGORY_ID/,
+    );
   });
 });
 

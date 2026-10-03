@@ -12,6 +12,34 @@ import {
 
 export type CsvRow = Record<string, string>;
 
+type LookupTable = { file: string; id: string; columns: string[] };
+
+export const LOOKUP_TABLES = {
+  categories: {
+    file: 'kategorien.csv',
+    id: 'CATEGORY_ID',
+    columns: [
+      CategoryColumn.categoryDe,
+      CategoryColumn.categoryIt,
+      CategoryColumn.categoryLldGherdeina,
+      CategoryColumn.categoryLldBadia,
+    ],
+  },
+  subCategories: {
+    file: 'unterkategorien.csv',
+    id: 'SUB_CATEGORY_ID',
+    columns: [
+      CategoryColumn.mainCategoryDe,
+      CategoryColumn.mainCategoryIt,
+      CategoryColumn.subCategoryDe,
+      CategoryColumn.subCategoryIt,
+    ],
+  },
+} satisfies Record<string, LookupTable>;
+
+export type LookupName = keyof typeof LOOKUP_TABLES;
+export type Lookups = Record<LookupName, CsvRow[]>;
+
 export type NormalizeResult = {
   rows: CsvRow[];
   withoutCoordinates: CsvRow[];
@@ -31,6 +59,12 @@ const CATEGORY_COLUMNS: string[] = Object.values(CategoryColumn);
 const CONTENT_COLUMNS = COLUMNS.filter((column) => column !== CoordinateColumn.lon && column !== CoordinateColumn.lat);
 const LOST_CHARACTER_COLUMNS = [...NAME_COLUMNS, ...CATEGORY_COLUMNS];
 const SORT_COLUMNS = [TextColumn.nameDe, CoordinateColumn.lon, CoordinateColumn.lat, ...COLUMNS];
+const LOOKUP_ENTRIES = Object.entries(LOOKUP_TABLES) as [LookupName, LookupTable][];
+const FLURNAMEN_COLUMNS = [
+  ...Object.values(TextColumn),
+  ...LOOKUP_ENTRIES.map(([, table]) => table.id),
+  ...Object.values(CoordinateColumn),
+];
 
 export function parseCsv(text: string) {
   const { data, meta } = Papa.parse<CsvRow>(text.replace(/^﻿/, ''), {
@@ -124,10 +158,66 @@ export function normalizeRows(rows: CsvRow[], columns: string[], previousRows: C
   };
 }
 
-export function formatCsv(rows: CsvRow[]) {
+function pick(row: CsvRow, columns: string[]) {
+  return Object.fromEntries(columns.map((column) => [column, row[column]]));
+}
+
+function lookupKey(row: CsvRow, table: LookupTable) {
+  return table.columns.map((column) => row[column]).join('\0');
+}
+
+function expandLookup(rows: CsvRow[], table: LookupTable, entries: CsvRow[]) {
+  const byId = new Map(entries.map((entry) => [entry[table.id], entry]));
+  return rows.map(({ [table.id]: id, ...row }) => {
+    const entry = byId.get(id);
+    if (!entry) throw new Error(`Unbekannte ${table.id}: ${id}`);
+    return { ...row, ...pick(entry, table.columns) };
+  });
+}
+
+function compactLookup(rows: CsvRow[], table: LookupTable, previousEntries: CsvRow[] = []) {
+  const ids = new Map(previousEntries.map((entry) => [lookupKey(entry, table), Number(entry[table.id])]));
+  let nextId = Math.max(0, ...ids.values()) + 1;
+  for (const key of [...new Set(rows.map((row) => lookupKey(row, table)))].sort()) {
+    if (!ids.has(key)) ids.set(key, nextId++);
+  }
+
+  const entries = new Map<number, CsvRow>();
+  const compactRows = rows.map((row) => {
+    const id = ids.get(lookupKey(row, table))!;
+    entries.set(id, { [table.id]: String(id), ...pick(row, table.columns) });
+    return { ...row, [table.id]: String(id) };
+  });
+  return {
+    rows: compactRows,
+    entries: [...entries.keys()].sort((a, b) => a - b).map((id) => entries.get(id)!),
+  };
+}
+
+export function parseFlurnamen(flurnamenCsv: string, lookupCsvs: Record<LookupName, string>) {
+  let rows = parseCsv(flurnamenCsv).rows;
+  const lookups = {} as Lookups;
+  for (const [name, table] of LOOKUP_ENTRIES) {
+    lookups[name] = parseCsv(lookupCsvs[name]).rows;
+    rows = expandLookup(rows, table, lookups[name]);
+  }
+  return { rows, lookups };
+}
+
+export function formatFlurnamen(rows: CsvRow[], previousLookups: Partial<Lookups> = {}) {
+  const lookups = {} as Record<LookupName, string>;
+  for (const [name, table] of LOOKUP_ENTRIES) {
+    const compact = compactLookup(rows, table, previousLookups[name]);
+    rows = compact.rows;
+    lookups[name] = formatCsv(compact.entries, [table.id, ...table.columns]);
+  }
+  return { flurnamen: formatCsv(rows, FLURNAMEN_COLUMNS), lookups };
+}
+
+function formatCsv(rows: CsvRow[], columns: string[]) {
   return (
     Papa.unparse(
-      { fields: [...COLUMNS], data: rows.map((row) => COLUMNS.map((c) => row[c])) },
+      { fields: columns, data: rows.map((row) => columns.map((c) => row[c])) },
       {
         delimiter: ';',
         newline: '\n',

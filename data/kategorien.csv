@@ -1,0 +1,119 @@
+CATEGORY_ID;CATEGORY_D;CATEGORY_I;CATEGORY_L;CATEGORY_1
+1;Abzweigung;bivio;desvieda;incrujada, burćia
+2;Acker, Äcker;campo, -i;ciamp, -s;ćiamp, -s
+3;Alm;malga;mont;munt
+4;Anhöhe, Erhebung;altura;col;col
+5;Aufstiegsanlage;impianto di risalita;mplant portamont;implanć portamunt
+6;Autobahn;autostrada;autostreda;autostrada
+7;Bach, Bäche;ruscello, -i, torrente, -i;ruf, ruves;rü, rüs
+8;Bank;panchina;banch;banch
+9;Baum, Bäume;albero, -i;lën, -s;lëgn, -s
+10;Bauwerk;costruzione;costruzion;costruziun
+11;Berggelände;area montuosa;raion da mont;raiun da munt
+12;Bergwerk, Stollen;miniera;minera;mineora
+13;Bergwiese;prato montano;pra da mont;pre da munt
+14;Bewässerungskanal;canale irriguo, roggia;roia;roia, agà
+15;Bewässerungsspeicher;laghetto artificiale per l'irrigazione;resservar dal'ega;resservar dal'ega
+16;Bildstock, -stöcke;capitello, -i;pelda, -es;anteriöl, -öi
+17;Biwak oder Unterstand;Bivacco o ricovero;905 -;905 -
+18;Brett, -er;asse, -i;brea, breies;brëia, -ies
+19;Brunnen, Trog;fontana, trogolo;funtana, droch;fistì, droch
+20;Brücke, -n;ponte, -i;puent, -nc;punt, -nć
+21;Burg, Schloss;castello;ciastel;ćiastel
+22;Durchgang;passaggio;passaje;passaje
+23;Erdpyramide, -n;piramide, -i di terra;piramida de tiera;piramide, -es de tera
+24;Erinnerungstafel, Marterl, Schild, Tafel;lastra, targa;tofla;tofla
+25;Feld, -er;campo, -i;ciamp, -s;ćiamp, -s
+26;Fels, -en;roccia, -e;crëp, -s;crëp, -s
+27;Felsblock, -blöcke;masso, -i;crëp, -s, laston, -s;crëp, -s, lastun, -s
+28;Felsgelände;terreno roccioso;raion da crëp;raiun da crëp
+29;Felswand, -wände;parete, -i;parëi de crëp;parëi de crëp
+30;Feuchtgebiet, -e;zona umida o paludosa;paluch, -sc;parü, -s
+31;Fluss;fiume;ruf;rü
+32;Forstgarten;vivaio;piciulea;ćiamp da lëgns
+33;Friedhof;cimitero;curtina;cortina
+34;Garten, Gärten;orto, -i;verzon, -s;urt, urć
+35;Garten, Park, Anlage;giardino, parco;parch, verzon;parch
+36;Gasse;vicolo;streda, via;strada, via
+37;Gasthof, Restaurant;albergo, ristorante;ustaria;ostaria
+38;Gatter, Zaun, Zaunlücke;cancello, recinto, apertura del recinto;ciancel, sief, locia;pontin, si, loćia
+39;Gebirge;montagne;crëps;munts, crëps
+40;Gebäude;edificio;frabicat;frabicat
+41;Gebüsch, Gestrüpp, Hecke;boscaglia, fratta, siepe;sienes, arjëi;brüsces
+42;Gegenstand;oggetto;cossa;cossa
+43;Gelände;terreno, zona;raion;raiun
+44;Geländeeinschnitt;fessura del terreno;sfënta;sfëssa
+45;Geländekante;margine del terreno;ëur;ur
+46;Geländerücken;dosso;costa;costa
+47;Geländeverebnung;piano;plan;plan
+48;Geländevertiefung;avvallamento;ciavuel;fopa
+49;Geländevorsprung;protuberanza del terreno;spurjënza;sporjënza
+50;Gemeinde;comune;chemun;comun
+51;Gemeindeteil;frazione;frazion;fraziun
+52;Geröll;detriti;roa, giaron;giarun
+53;Gewässer;acque;ega, eghes;ega, eghes
+54;Gipfel;cima;piza;piza
+55;Gletscher;ghiacciaio;dlacier;dlacià
+56;Grenze;confine;cunfin;confin
+57;Grube, -n;fossa, -e, buca;busc, bujes;büja, büjes
+58;Größere Gegend;regione;gran raion;gran raiun
+59;Handwerkerzone, Gewerbegebiet;zona artigianale;raion artejanel;zona artejanala
+60;Hang;pendio;rone, riva;tëmpla, ërt
+61;"Heuhütte, -n; Schuppen";"fienile, -i; capanno per gli atrezzi";tublà, -ei;tablé da munt
+62;Hof, Höfe;maso, -i;luech, mesc;lüch
+63;Hotel einzelstehend;Albergo isolato;901 -;901 -
+64;Höhle, -n;"caverna, -e; grotta, -e";"caverna, -es; chëul, chëui";ander, andri
+65;Hütte, -n;baita, -e;"cason, -s; utia, uties; ciajea, -eies";"ütia, üties; ćiasota, -es"
+66;Industriezone;zona industriale;raion ndustriel;raiun industrial
+67;Insel;isola;ijula;isola
+68;Joch, Scharte, Pass;giogo, passo di montagna, forcella;jëuf, furcela;ju, furcela
+69;Kapelle, -n;cappella, -e;capela, -les;capela, -les
+70;Katastralgemeinde, -n;comune, -i catastale, -i;chemun catastal;comun catastal
+71;Kirche, -n;chiesa, -e;dlieja, -es;dlijia, -es
+72;Kreuz, -e;croce, -i;crëusc, crëujes;crusc, -sc
+73;Kreuzung;incrocio;ncrujeda, -es;incrujada, -es
+74;Kurve, -n;curva, e;ëuta, -es;ota, otes
+75;Lagerplatz, Halde;deposito, discarica;descëria, -ies;depot, desćiaria, -ies
+76;Lichtung, -en;radura, -e;nëidia, -ies;lëde, lëdi
+77;Mauer, -n;muro, -i;mur, -es;mür, mürs
+78;Mauerrest, -e;"rovina, -e; muro, -i";sedims, mures;roines, mürs
+79;"Mure, -n; Erdrutsch, Bruch";frana, smottamento, zona erosiva;"frëina, -es; smueia, smueies; roa, roes";"frëina, -es; smöia, smöies; roa, roes"
+80;Murkegel;conoide di deiezione;smueia;roa
+81;Mühlgebäude;mulino;mulin;morin
+82;Obstwiese, -n;frutteto, -i;verzon da versura;urt da ordöra
+83;Ortschaft, -en;località abitata;paesc, paejes;paîsc, -sc
+84;Ortsteil;frazione;frazion;fraziun
+85;Platz;piazza;plaza;plaza
+86;Quelle, -n;"sorgente, -i; fonte, -i";"funtana, -es; ega, eghes";fontana, -nes
+87;Ruine, -n;rudere, -i;sedim, -s;roina, -nes
+88;Schutzhütte;rifugio;utia da mont;ütia de munt
+89;See, -n;lago, -ghi;lech, lec;lêch, lêć
+90;Seilbahn;funivia;furnadoia;furnadoia
+91;Siedlung, -en;zona abitata;zona abiteda, raion abità;insediamënt
+92;Sport- und Freizeitanlage;zona sportiva e ricreativa;raion dal sport y per l tëmp liede;raiun dal sport y dl tëmp lëde
+93;Stadel, Städel;fienile, -i;tublà, -ei;majun, -s
+94;Stadt;città;zità;cité
+95;Stadtteil;quartiere;pert dla zità, ridl;cuartier dla cité
+96;Stall, Ställe;stalla, -e;stala, -es;stala, -es
+97;Stein, -e;sasso, -i;sas, sasc;"sas, sasc; pera, - es"
+98;Steinbruch, Schottergrube, Sandgrube;cava;"cava, -es; giavea, -eies";ćiavara, -es
+99;Steinmann;omino di pietra;mandl de sasc;mandl de pera
+100;Steinplatte, -n;lastrone roccioso;lasta, -es;lastrun de pera
+101;Stiege, -n;scala, -e;scela, -es;stiga, -ghes
+102;Straße;strada;streda;strada
+103;Säge, Sägewerk;segheria;sia;siëia
+104;Tal, Täler;valle, -i;"val, vaves; valeda, -es";val, vals
+105;Wald, Wälder;bosco, boschi;bosch, bòsc;bosch, bosć
+106;Wasserfall, -fälle;cascata, -e;pisciadoi, -ies;pisciadù, -us
+107;Wassergraben;fossato;aghel, fòs, fussel;fossè, fossà
+108;Wasserspeicher, Reservoir;bacino idrico, serbatoio;resservar dal'ega;resservar dal'ega
+109;Weg;via, sentiero;via, troi;tru
+110;Wegstück;tratto viario;pert dal troi;pert dl tru
+111;Weide, -n;pascolo, -i;pastura, -es;pastöra, -es
+112;Weiher, Teich;stagno, laghetto;lech;lêch
+113;Weiler, Höfegruppe;borgo, gruppo di masi;vila, -es;vila, -es
+114;Weingut;vigneto;vinia, -ies;vigna, -es
+115;Wiese, -n;prato, -i;pra, prei;pre, pra
+116;Wohnhaus, -häuser;abitazione, casa, -e;cësa, -es;ćiasa, -ses
+117;Ödfläche, -n;zona incolta, abbandonata;raion nia produtif;raiun nia produtif, rödenes
+118;Örtlichkeit;località;luech;localité

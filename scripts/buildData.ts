@@ -1,11 +1,12 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
-import { encodeFlurnamen, parseCsv } from './flurnamenCsv.ts';
+import { readFlurnamen } from './dataFiles.ts';
+import { encodeFlurnamen } from './flurnamenCsv.ts';
 
-const CSV_PATH = new URL('../data/flurnamen.csv', import.meta.url);
 const OUTPUT_PATH = new URL('../data/flurnamen.json.gz', import.meta.url);
 
-const { rows } = parseCsv(readFileSync(CSV_PATH, 'utf8'));
+const { rows } = readFlurnamen();
+if (!rows.length) throw new Error('Keine Flurnamen in data/flurnamen.csv');
 const json = JSON.stringify(encodeFlurnamen(rows));
 const gzip = gzipSync(json, { level: 9 });
 
