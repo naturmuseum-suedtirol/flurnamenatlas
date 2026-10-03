@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { PruneCluster, PruneClusterForLeaflet } from 'prunecluster/dist/PruneCluster.js';
 import iconUrl from './assets/customicon48.png';
 import type { Flurname } from './flurnamen';
+import { escapeHtml, popupHtml } from './popup';
 
 const icon = L.icon({
   iconUrl,
@@ -9,10 +10,6 @@ const icon = L.icon({
   iconAnchor: [12, 36],
   popupAnchor: [0, -36],
 });
-
-export function escapeHtml(text: string) {
-  return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
 
 type PreparedMarker = L.Marker & { prepared?: boolean };
 
@@ -35,10 +32,7 @@ export function createFlurnamenLayer(flurnamen: Flurname[]) {
       direction: 'top',
       offset: [0, -36],
     });
-    let popup = `Coordinates (lon,lat): ${data.lon},${data.lat}`;
-    if (data.vernacular)
-      popup += `<br />Vernacular Name: <span class="vernacular-name">${escapeHtml(data.vernacular)}</span>`;
-    marker.bindPopup(popup);
+    marker.bindPopup(() => popupHtml(data));
     marker.prepared = true;
   };
 

@@ -5,6 +5,7 @@ import {
   COORDINATE_SCALE,
   CoordinateColumn,
   NAME_COLUMNS,
+  SubCategoryColumn,
   TextColumn,
   type FlurnamenJson,
   type TextField,
@@ -18,22 +19,12 @@ export const LOOKUP_TABLES = {
   categories: {
     file: 'kategorien.csv',
     id: 'CATEGORY_ID',
-    columns: [
-      CategoryColumn.categoryDe,
-      CategoryColumn.categoryIt,
-      CategoryColumn.categoryLldGherdeina,
-      CategoryColumn.categoryLldBadia,
-    ],
+    columns: Object.values(CategoryColumn),
   },
   subCategories: {
     file: 'unterkategorien.csv',
     id: 'SUB_CATEGORY_ID',
-    columns: [
-      CategoryColumn.mainCategoryDe,
-      CategoryColumn.mainCategoryIt,
-      CategoryColumn.subCategoryDe,
-      CategoryColumn.subCategoryIt,
-    ],
+    columns: Object.values(SubCategoryColumn),
   },
 } satisfies Record<string, LookupTable>;
 
@@ -55,7 +46,7 @@ const LAT_RANGE = [45.5, 47.5];
 const COORDINATE_DECIMALS = 7;
 const MAX_COORDINATE_SHIFT_METERS = 1;
 const CATEGORY_CODE = /^\d+ - /;
-const CATEGORY_COLUMNS: string[] = Object.values(CategoryColumn);
+const CATEGORY_COLUMNS: string[] = [...Object.values(CategoryColumn), ...Object.values(SubCategoryColumn)];
 const CONTENT_COLUMNS = COLUMNS.filter((column) => column !== CoordinateColumn.lon && column !== CoordinateColumn.lat);
 const LOST_CHARACTER_COLUMNS = [...NAME_COLUMNS, ...CATEGORY_COLUMNS];
 const SORT_COLUMNS = [TextColumn.nameDe, CoordinateColumn.lon, CoordinateColumn.lat, ...COLUMNS];
@@ -227,27 +218,11 @@ function formatCsv(rows: CsvRow[], columns: string[]) {
 }
 
 export function encodeFlurnamen(rows: CsvRow[]): FlurnamenJson {
-  const categoryIndex = new Map<string, number>();
-  const data: FlurnamenJson = {
+  return {
     text: Object.fromEntries(
       Object.entries(TextColumn).map(([field, column]) => [field, rows.map((row) => row[column])]),
     ) as Record<TextField, string[]>,
-    categories: [],
-    category: [],
-    lon: [],
-    lat: [],
+    lon: rows.map((row) => Math.round(Number(row[CoordinateColumn.lon]) * COORDINATE_SCALE)),
+    lat: rows.map((row) => Math.round(Number(row[CoordinateColumn.lat]) * COORDINATE_SCALE)),
   };
-
-  for (const row of rows) {
-    const category = Object.values(CategoryColumn).map((column) => row[column]);
-    const key = JSON.stringify(category);
-    if (!categoryIndex.has(key)) {
-      categoryIndex.set(key, data.categories.length);
-      data.categories.push(category);
-    }
-    data.category.push(categoryIndex.get(key)!);
-    data.lon.push(Math.round(Number(row[CoordinateColumn.lon]) * COORDINATE_SCALE));
-    data.lat.push(Math.round(Number(row[CoordinateColumn.lat]) * COORDINATE_SCALE));
-  }
-  return data;
 }

@@ -12,6 +12,9 @@ export const CategoryColumn = {
   categoryIt: 'CATEGORY_I',
   categoryLldGherdeina: 'CATEGORY_L',
   categoryLldBadia: 'CATEGORY_1',
+} as const;
+
+export const SubCategoryColumn = {
   mainCategoryDe: 'MAIN_CATEG',
   mainCategoryIt: 'MAIN_CAT_1',
   subCategoryDe: 'SUB_CATEGO',
@@ -26,6 +29,7 @@ export const CoordinateColumn = {
 export const COLUMNS = [
   ...Object.values(TextColumn),
   ...Object.values(CategoryColumn),
+  ...Object.values(SubCategoryColumn),
   ...Object.values(CoordinateColumn),
 ];
 
@@ -37,8 +41,6 @@ export type TextField = keyof typeof TextColumn;
 
 export type FlurnamenJson = {
   text: Record<TextField, string[]>;
-  categories: string[][];
-  category: number[];
   lon: number[];
   lat: number[];
 };

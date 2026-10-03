@@ -150,15 +150,13 @@ describe('formatFlurnamen', () => {
 });
 
 describe('encodeFlurnamen', () => {
-  it('stores categories as dictionary and coordinates as integers', () => {
+  it('stores text columns as arrays and coordinates as integers', () => {
     const data = encodeFlurnamen([
-      { NAME_DE: 'A', CATEGORY_D: 'Wiese', xcoord: '11.1234567', ycoord: '46.5' },
-      { NAME_DE: 'B', CATEGORY_D: 'Wald', xcoord: '11', ycoord: '46' },
-      { NAME_DE: 'C', CATEGORY_D: 'Wiese', xcoord: '11', ycoord: '46' },
+      { NAME_DE: 'A', xcoord: '11.1234567', ycoord: '46.5' },
+      { NAME_DE: 'B', xcoord: '11', ycoord: '46' },
     ]);
-    expect(data.category).toEqual([0, 1, 0]);
-    expect(data.categories[1][0]).toBe('Wald');
-    expect(data.lon[0]).toBe(11123457);
-    expect(data.text.nameDe).toEqual(['A', 'B', 'C']);
+    expect(data.text.nameDe).toEqual(['A', 'B']);
+    expect(data.lon).toEqual([11123457, 11000000]);
+    expect(data.lat).toEqual([46500000, 46000000]);
   });
 });
