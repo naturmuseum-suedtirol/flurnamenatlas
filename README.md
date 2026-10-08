@@ -25,4 +25,5 @@ Normalisiert den Datenbank-Export (Spaltenreihenfolge, Sortierung, Dezimalpunkt,
 # Deployment
 
 - `main` wird per GitHub Actions nach [naturmuseum-suedtirol.github.io/flurnamenatlas](https://naturmuseum-suedtirol.github.io/flurnamenatlas) deployt.
+- Alle `feat/xx`-Branches werden zusätzlich nach `naturmuseum-suedtirol.github.io/flurnamenatlas/feat/xx/` deployt (jeder Push auf `main` oder `feat/**` baut alle neu, gelöschte Branches verschwinden beim nächsten Deploy).
 - Jeder Push auf `main` erzeugt ein GitHub Release mit `flurnamenatlas-<datum>-<commit>.zip`. Für flurnamen.natura.museum das ZIP entpacken und per FTP hochladen.

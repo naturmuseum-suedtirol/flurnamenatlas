@@ -18,25 +18,10 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
+          name: dist
           path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
 
   release:
     needs: build
@@ -46,12 +31,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v8
         with:
-          name: github-pages
+          name: dist
+          path: dist
       - id: tag
         run: echo "name=$(date -u +%Y%m%d-%H%M)-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
-      - run: |
-          mkdir dist && tar -xf artifact.tar -C dist
-          cd dist && zip -r ../flurnamenatlas-${{ steps.tag.outputs.name }}.zip .
+      - run: cd dist && zip -r ../flurnamenatlas-${{ steps.tag.outputs.name }}.zip .
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.tag.outputs.name }}
