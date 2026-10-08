@@ -4,9 +4,11 @@ on:
   pull_request:
   push:
     branches-ignore: [main]
+  delete:
 
 jobs:
   build:
+    if: github.event_name != 'delete'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -18,3 +20,46 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run build
+      - if: github.event_name == 'push' && startsWith(github.ref_name, 'feat/')
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+
+  preview:
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref_name, 'feat/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: gh-pages
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          target-folder: ${{ github.ref_name }}
+      - run: echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}/" >> "$GITHUB_STEP_SUMMARY"
+
+  cleanup:
+    if: github.event_name == 'delete' && github.event.ref_type == 'branch' && startsWith(github.event.ref, 'feat/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: gh-pages
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+      - env:
+          BRANCH: ${{ github.event.ref }}
+        run: |
+          git rm -r --ignore-unmatch "$BRANCH"
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git diff --cached --quiet || { git commit -m "Remove preview $BRANCH" && git push; }
