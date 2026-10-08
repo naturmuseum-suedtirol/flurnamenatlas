@@ -26,9 +26,11 @@
     "@types/leaflet": "^1.9.22",
     "@types/node": "^26.6.3",
     "@types/papaparse": "^5.5.2",
+    "@vite-pwa/assets-generator": "^2.0.0",
     "prettier": "^3.9.9",
     "typescript": "^7.0.2",
     "vite": "^8.3.1",
+    "vite-plugin-pwa": "^2.0.0",
     "vitest": "^5.0.2"
   }
 }

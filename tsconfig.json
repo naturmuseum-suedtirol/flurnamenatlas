@@ -15,5 +15,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "scripts", "*.d.ts", "vite.config.ts"]
+  "include": ["src", "scripts", "*.d.ts", "vite.config.ts", "pwa-assets.config.ts"]
 }
